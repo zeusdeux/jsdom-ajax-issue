@@ -5,16 +5,26 @@ request('http://localhost:4000/jsdomtest.html', function(err, resp, body) {
 	var clickEvent;
 	var clearMe;
 	var document;
+	//log the html received from request
 	console.log('request -> body: \n%s',body);
+	
 	if (err) process.exit(1);
 
 	document = jsdom.jsdom(body, jsdom.level(3), {
 		features: {
-			FetchExternalResources: ['script', 'link'],
-			ProcessExternalResources: ['script', 'link']
+			FetchExternalResources: ['script'],
+			ProcessExternalResources: ['script']
 		}
 	}).parentWindow.document;
-
+	
+	//I am going to dispatch this click event 
+	//on the div#clickMe in jsdomtest.html
+	//which in turn will make a $.get call and 
+	//invoke function `boop` given below.
+	//boop will keep dispatching clicks till it has
+	//8 elements in the dom
+	//once there are 8 div.item in the dom, it'll
+	//log them to server console, empty the dom and exit
 	clickEvent = document.createEvent('MouseEvents');
 	clickEvent.initEvent('click', true, true);
 
@@ -28,6 +38,7 @@ request('http://localhost:4000/jsdomtest.html', function(err, resp, body) {
 				console.log(elements[i].outerHTML);
 				elements[i].parentNode.removeChild(elements[i]);
 			}
+			process.exit(0);
 		}
 	}
 
