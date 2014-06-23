@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>jsdom ajax test</title>
+</head>
+<body>
+	<div id="test">
+		<div class="item">
+			<p>1</p>
+		</div>
+		<div class="item">
+			<p>2</p>
+		</div>
+		<div class="item">
+			<p>3</p>
+		</div>
+		<div class="item">
+			<p>4</p>
+		</div>
+	</div>
+	<div id="clickMe"></div>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+	function getItem(){
+		console.log("clickMe got clicked!");
+		$.get("http://localhost:4000/getItem", function(no){
+			var $test = $("#test")
+			var html = "<div class='item'><p>"+no+"</p></div>";
+			$test.append(html);
+			if($test.children().length >= 8) $("#clickMe").css("display", "none");
+		});
+	}
+	$("#clickMe").click(getItem);
+	</script>
+</body>
+</html>
