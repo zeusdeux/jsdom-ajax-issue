@@ -4,7 +4,7 @@
   "description": "blergh",
   "main": "app.js",
   "scripts": {
-		"start": "node server.js & node jsdomBoy.js",
+		"start": "node server.js & node jsdom_ajax_test.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mudit Ameta",

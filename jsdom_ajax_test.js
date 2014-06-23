@@ -1,7 +1,7 @@
 var jsdom = require('jsdom');
 var request = require('request');
 
-request('http://localhost:4000/jsdomtest.html', function(err, resp, body) {
+request('http://localhost:4000/index.html', function(err, resp, body) {
 	var clickEvent;
 	var clearMe;
 	var document;
