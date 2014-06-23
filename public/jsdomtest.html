@@ -17,9 +17,10 @@
 			<p>4</p>
 		</div>
 	</div>
-	<div id="clickMe"></div>
+	<button id="clickMe">click me</button>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script>
+	console.log("page loaded");
 	function getItem(){
 		console.log("clickMe got clicked!");
 		$.get("http://localhost:4000/getItem", function(no){

@@ -5,14 +5,13 @@ request('http://localhost:4000/jsdomtest.html', function(err, resp, body) {
 	var clickEvent;
 	var clearMe;
 	var document;
-
+	console.log('request -> body: \n%s',body);
 	if (err) process.exit(1);
 
 	document = jsdom.jsdom(body, jsdom.level(3), {
 		features: {
-			FetchExternalResources: ['script'],
-			ProcessExternalResources: ['script'],
-			MutationEvents: '2.0'
+			FetchExternalResources: ['script', 'link'],
+			ProcessExternalResources: ['script', 'link']
 		}
 	}).parentWindow.document;
 
@@ -20,14 +19,16 @@ request('http://localhost:4000/jsdomtest.html', function(err, resp, body) {
 	clickEvent.initEvent('click', true, true);
 
 	function boop(document) {
-		var els = document.querySelectorAll('.item');
-		for (var i = 0; i < els.length; i++) {
-			console.log("------------" + (i + 1) + "-----------");
-			console.log(els[i].outerHTML);
-			els[i].parentNode.removeChild(els[i]);
+		var elements = document.querySelectorAll('.item');
+		if (elements.length < 8) document.querySelector('#clickMe').dispatchEvent(clickEvent);
+		else {
+			clearInterval(clearMe);
+			for (var i = 0; i < elements.length; i++) {
+				console.log("------------ element " + (i + 1) + " -----------");
+				console.log(elements[i].outerHTML);
+				elements[i].parentNode.removeChild(elements[i]);
+			}
 		}
-		if (document.querySelectorAll('.item').length === 0) document.querySelector('#clickMe').dispatchEvent(clickEvent);
-		if (document.querySelectorAll('.item').length >= 8) clearInterval(clearMe);
 	}
 
 	clearMe = setInterval(boop, 100, document);
